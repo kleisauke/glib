@@ -4060,7 +4060,8 @@ gio_win32_appinfo_init (gboolean do_wait)
 }
 
 
-static void g_win32_app_info_iface_init (GAppInfoIface *iface);
+static void g_win32_app_info_iface_init (GAppInfoIface *iface,
+                                         gpointer       iface_data);
 
 struct _GWin32AppInfo
 {
@@ -5725,7 +5726,8 @@ g_app_info_create_from_commandline_impl (const char           *commandline,
 /* GAppInfo interface init */
 
 static void
-g_win32_app_info_iface_init (GAppInfoIface *iface)
+g_win32_app_info_iface_init (GAppInfoIface *iface,
+                             gpointer       iface_data)
 {
   iface->dup = g_win32_app_info_dup;
   iface->equal = g_win32_app_info_equal;
