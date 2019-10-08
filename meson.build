@@ -2531,8 +2531,6 @@ subdir('gio')
 if enable_gir
   subdir('introspection')
 endif
-subdir('girepository')
-subdir('fuzzing')
 
 # xgettext is optional (on Windows for instance)
 if find_program('xgettext', required : get_option('nls')).found()
