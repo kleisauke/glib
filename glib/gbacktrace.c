@@ -248,7 +248,7 @@ g_on_error_query (const gchar *prg_name)
 void
 g_on_error_stack_trace (const gchar *prg_name)
 {
-#if defined(G_OS_UNIX)
+#if defined(G_OS_UNIX) && !defined(G_PLATFORM_WASM)
   pid_t pid;
   gchar buf[16];
   gchar buf2[64];
@@ -294,9 +294,11 @@ g_on_error_stack_trace (const gchar *prg_name)
         break;
     }
 #else
+#ifdef G_OS_WIN32
   if (IsDebuggerPresent ())
     G_BREAKPOINT ();
   else
+#endif
     g_abort ();
 #endif
 }
