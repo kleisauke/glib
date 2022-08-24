@@ -1201,7 +1201,7 @@ g_app_info_launch_default_for_uri (const char         *uri,
       g_object_unref (app_info);
     }
 
-#ifdef G_OS_UNIX
+#if defined(G_OS_UNIX) && !defined(G_PLATFORM_WASM)
   if (!res && glib_should_use_portal ())
     {
       GFile *file = NULL;
@@ -1272,7 +1272,7 @@ launch_default_for_uri_portal_open_uri_cb (GObject      *object,
 static void
 launch_default_for_uri_portal_open_uri (GTask *task, GError *error)
 {
-#ifdef G_OS_UNIX
+#if defined(G_OS_UNIX) && !defined(G_PLATFORM_WASM)
   LaunchDefaultForUriData *data = g_task_get_task_data (task);
   GCancellable *cancellable = g_task_get_cancellable (task);
 

@@ -60,6 +60,10 @@
 #include <windows.h>
 #endif /* G_OS_WIN32 */
 
+#ifdef G_PLATFORM_WASM
+#include <emscripten/threading.h>
+#endif /*G_PLATFORM_WASM*/
+
 #include "gslice.h"
 #include "gstrfuncs.h"
 #include "gtestutils.h"
@@ -1139,7 +1143,9 @@ g_thread_get_name (GThread *thread)
 guint
 g_get_num_processors (void)
 {
-#ifdef G_OS_WIN32
+#ifdef G_PLATFORM_WASM
+  return emscripten_num_logical_cores();
+#elif defined(G_OS_WIN32)
   unsigned int count;
   SYSTEM_INFO sysinfo;
   DWORD_PTR process_cpus;
