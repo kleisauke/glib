@@ -62,8 +62,10 @@
 
 #ifdef G_OS_UNIX
 #include <unistd.h>
+#ifndef G_PLATFORM_WASM
 #include "glib-unix.h"
-#endif
+#endif /* !G_PLATFORM_WASM */
+#endif /* G_OS_UNIX */
 
 #include "glib-private.h"
 
@@ -1336,7 +1338,7 @@ get_content_type (const char          *basename,
 
       content_type = g_content_type_guess (basename, NULL, 0, &result_uncertain);
       
-#if !defined(G_OS_WIN32) && !defined(__APPLE__)
+#if !defined(G_OS_WIN32) && !defined(__APPLE__) && !defined(G_PLATFORM_WASM)
       if (!fast && result_uncertain && path != NULL)
 	{
           /* Sniff the first 16KiB of the file (sometimes less, if xdgmime
@@ -1994,6 +1996,7 @@ _g_local_file_info_get (const char             *basename,
   if (stat_ok)
     set_info_from_stat (info, &statbuf, attribute_matcher);
 
+#ifndef G_PLATFORM_WASM
 #ifndef G_OS_WIN32
   if (_g_file_attribute_matcher_matches_id (attribute_matcher,
 					    G_FILE_ATTRIBUTE_ID_STANDARD_IS_HIDDEN))
@@ -2030,6 +2033,7 @@ _g_local_file_info_get (const char             *basename,
         _g_file_info_set_attribute_uint32_by_id (info, G_FILE_ATTRIBUTE_ID_DOS_REPARSE_POINT_TAG, statbuf.reparse_tag);
     }
 #endif
+#endif /* !G_PLATFORM_WASM */
 
   symlink_target = NULL;
   if (is_symlink)
