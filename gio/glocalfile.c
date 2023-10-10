@@ -2409,7 +2409,7 @@ g_local_file_trash (GFile         *file,
 {
   g_set_io_error (error,
                   _("g_local_file_trash is no-op on WebAssembly"),
-                  file, ECANCELED);
+                  file, ENOTSUP);
   return FALSE;
 }
 #endif /* G_PLATFORM_WASM */
