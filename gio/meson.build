@@ -456,6 +456,8 @@ elif host_system == 'windows'
     'gwin32outputstream.h',
   )
   install_headers(gio_win32_include_headers, subdir : 'gio-win32-2.0/gio')
+elif host_system == 'emscripten'
+  contenttype_sources += files('gcontenttype-wasm.c')
 endif
 
 gio_sources = files(
